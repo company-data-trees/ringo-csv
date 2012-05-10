@@ -1,0 +1,10 @@
+{
+    "name": "ringo-csv",
+    "version": "0.0.1",
+    "description": "CSV parser for RingoJS",
+    "author": "Justin Bradford <jb@companydatatrees.com>",
+    "jars": [
+        "jars/commons-csv-1.0-20120330.022036-106.jar"
+    ],
+    "main": "index.js"
+}
