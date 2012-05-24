@@ -1,7 +1,7 @@
 var fs = require('fs');
 var {merge} = require('ringo/utils/objects');
 
-var jar = fs.resolve(module.path, './jars/commons-csv-1.0-20120330.022036-106.jar');
+var jar = module.resolve('./jars/commons-csv-1.0-20120330.022036-106.jar');
 addToClasspath(jar);
 
 exports.parse = function(path, options) {
@@ -13,6 +13,7 @@ exports.parse = function(path, options) {
 
     var reader = path ? new java.io.FileReader(path) :
         new java.io.InputStreamReader(java.lang.System.in);
+
     var format = org.apache.commons.csv.CSVFormat[options.format];
     var parser = new org.apache.commons.csv.CSVParser(reader, format);
     var iterator = parser.iterator();
@@ -29,7 +30,8 @@ exports.parse = function(path, options) {
     }
 
     var headers = [];
-    if (options.headers) headers = row().map(function(value) value.trim())
+    if (Array.isArray(options.headers)) headers = options.headers;
+    else if (options.headers) headers = row().map(function(value) value.trim())
 
     while (iterator.hasNext()) {
         var fields = row();
