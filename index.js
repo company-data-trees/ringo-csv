@@ -9,10 +9,19 @@ exports.parse = function(path, options) {
         format: 'DEFAULT',
         headers: true,
         blank: '',
+        gzip: false
     });
 
-    var reader = path ? new java.io.FileReader(path) :
-        new java.io.InputStreamReader(java.lang.System.in);
+    var reader;
+    if (path) {
+        if (options.gzip) {
+            var bis = new java.io.BufferedInputStream(new java.io.FileInputStream(path));
+            var gis = new java.util.zip.GZIPInputStream(bis);
+            reader = new java.io.InputStreamReader(gis);
+        }
+        else reader = new java.io.FileReader(path);
+    }
+    else reader = new java.io.InputStreamReader(java.lang.System.in);
 
     var format = org.apache.commons.csv.CSVFormat[options.format];
     var parser = new org.apache.commons.csv.CSVParser(reader, format);
