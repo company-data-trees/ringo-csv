@@ -9,7 +9,8 @@ exports.parse = function(path, options) {
         format: 'DEFAULT',
         headers: true,
         blank: '',
-        gzip: false
+        gzip: false,
+        null_at_end: false
     });
 
     var reader;
@@ -52,5 +53,5 @@ exports.parse = function(path, options) {
         yield(fields);
     }
 
-    yield(null);
+    if (options.null_at_end) yield(null);
 }
